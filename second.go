@@ -27,7 +27,7 @@ func main() {
 	fmt.Println(b)
 	fmt.Println(c)
 
-	//multiple variable declaration
+	//multiple variable declaratio
 	var x, y int = 10, 20
 	fmt.Println(x)
 	fmt.Println(y)
