@@ -1,31 +1,47 @@
 package main
+import (
+  "fmt"
+  "time"
+  "math/rand"
+)
 
-import "fmt"
+var string1 string = "A string declared Globally";
 
-func main2() {
-	fmt.Println("Hello, World!")
-
+func doSomething(x int, y int) int{
+  fmt.Println("Doing something")
+  return x+y
 }
 
-/*
-is this a comment?
-
-func main()
-{
-	fmt.Println("Hello, World!")
+func newFunction(x,y int, z string) (a int,b string){
+  fmt.Println("doing something in the new function")
+  a = x+y
+  b = z+z
+  return
 }
 
-this gives error
+func main(){
+  fmt.Println("Hello World")
+  fmt.Println("The time is ",time.Now())
+  fmt.Println("A random number is ", rand.Intn(10))
+  int1 := 4
+  int2 := 5
+  fmt.Println("The sum of ",int1," and ",int2," is ",doSomething(int1,int2))
+  fmt.Println("callling a new function\n\\n")
 
-*/
+  a,b := newFunction(4,5,"hello")
+  fmt.Println("The sum of 4 and 5 is ",a)
+  fmt.Println("The string is ",b)
+  fmt.Println("The global string is ",string1)  
+  
+  var boolean bool = true
+  fmt.Println("The boolean value is ",boolean)
 
-func main() {
-	fmt.Println("Hello, World!")
-	var a int = 43
-	fmt.Println("Go " + string(a) + "Language")
+  var float1 float32 = 3.14
+  fmt.Println("The float value is ",float1)
 
-	//print int and string in sinngle line
-	fmt.Println("Go", a, "Language")
-	var aa float32 = 43.2
-	fmt.Println("No. of variants of a mutating bacteria is", aa)
+  var int3 int = 5
+  fmt.Println("The integer value is ",int3)
+
+  var complex1 complex64 = 3+4i
+  fmt.Println("The complex value is ",complex1)
 }
