@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/sri-dhar/go-caching-proxy/internal/proxy-server/proxy"
+	"github.com/sri-dhar/GoLang/go-caching-proxy/internal/proxy-server/proxy"
 )
 
 type Server struct {

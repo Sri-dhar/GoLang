@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/sri-dhar/go-caching-proxy/internal/proxy-server/cache"
+	"github.com/sri-dhar/GoLang/go-caching-proxy/internal/proxy-server/cache"
 	"github.com/levigross/grequests"
 )
 
