@@ -43,7 +43,7 @@ func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	CACHE_KEY := r.Method + ":" + urlPath
 
-	p.M.RLock() // Lock for reading
+	p.M.RLock() 
 	c, ok := p.Cache[CACHE_KEY]
 	p.M.RUnlock()
 

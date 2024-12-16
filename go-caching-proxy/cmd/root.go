@@ -62,9 +62,9 @@ func Execute(){
 }
 
 func init(){
-  rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.caching-proxy.yaml)")
-  root.Cmd.PersistentFlags().BoolVarP(&ClearCache, "clear-cache", "c", false, "Clear the cache of the proxy server")
-  root.Cmd.PersistentFlags().StringVarP(&Port, "port","p", "", "Port number to start the cache server")
-  root.Cmd.PersistentFlags().StringVarP(&Origin, "origin", "o", "", "Origin url of the server to cache the response")
-  root.Cmd.Flags().BoolP("toggle", "t", false, "help message for toggle")
+//   rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.caching-proxy.yaml)")
+  rootCmd.PersistentFlags().BoolVarP(&ClearCache, "clear-cache", "c", false, "Clear the cache of the proxy server")
+  rootCmd.PersistentFlags().StringVarP(&Port, "port","p", "", "Port number to start the cache server")
+  rootCmd.PersistentFlags().StringVarP(&Origin, "origin", "o", "", "Origin url of the server to cache the response")
+  rootCmd.Flags().BoolP("toggle", "t", false, "help message for toggle")
 }
