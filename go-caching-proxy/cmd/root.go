@@ -10,48 +10,48 @@ import (
 	"github.com/sri-dhar/GoLang/go-caching-proxy/internal/app"
 )
 
-var(
-  Port string
-  Origin string
+var (
+  Port       string
+  Origin     string
   ClearCache bool
-  Proxy *proxy.Proxy
+  Proxy      *proxy.Proxy
 )
 
 var rootCmd = &cobra.Command{
-  Use: "go-caching-proxy",
-  Short: "A simple caching proxy server that caches responses from other server",
-  Long:`Caching proxy server that forwards requests to the actual server 
+	Use:   "caching-proxy",
+	Short: "Caching server that caches responses from other server",
+	Long: `Caching proxy server that forwards requests to the actual server 
 and caches the responses. If the same request is made again, 
 it will return the cached response instead of forwarding the request to the server.`,
-  CompletoinOptions: cobra.CompletionOptions{
-    DisableDefaultCmd: true,
-  },
-  Version: "1.0.0",
+	CompletionOptions: cobra.CompletionOptions{
+		DisableDefaultCmd: true,
+	},
+	Version: "1.0.0",
 
-  Run: func(cmd *cobra.Command, args[] string){
-    var port int
-    var err error
 
-    if Port != ""{
-      port, err = strconv.Atoi(Port)
-      if err != nil{
-        fmt.Printf("INVALID PORT: %s\n", Port)
-        return
-      }
-    }
+	Run: func(cmd *cobra.Command, args []string) {
+		var port int
+		var err error
 
-    Proxy = proxy.NewProxy(Origin, ClearCache)
-    
-    server := &app.Server{
-      Port: port,
-      Origin: Origin, 
-      ClearCache: ClearCache, 
-      Proxy: Proxy,
-    }
-  
-    server.StartServer()
-  },
+		if Port != "" {
+			port, err = strconv.Atoi(Port)
+			if err != nil {
+				fmt.Printf("Invalid port number: %v\n", err)
+				return
+			}
+		}
 
+		Proxy = proxy.NewProxy(Origin, ClearCache)
+
+		server := &app.Server{
+			Port:       port,
+			Origin:     Origin,
+			ClearCache: ClearCache,
+			Proxy:      Proxy,
+		}
+
+		server.StartServer()
+	},
 }
 
 func Execute(){
