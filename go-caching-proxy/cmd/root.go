@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/spf13/cobra"
-	"github.com/sri-dhar/GoLang/go-cache-proxy/internal/proxy-server/proxy"
+	"github.com/sri-dhar/GoLang/go-caching-proxy/internal/proxy-server/proxy"
 	"github.com/sri-dhar/GoLang/go-caching-proxy/internal/app"
 )
 
