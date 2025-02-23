@@ -6,14 +6,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/sri-dhar/GoLang/go-caching-proxy/internal/proxy-server/cache"
 	"github.com/levigross/grequests"
+	"github.com/sri-dhar/GoLang/go-caching-proxy/internal/proxy-server/cache"
 )
 
 type Proxy struct {
 	Origin string
 	Cache  map[string]*cache.Cache
-	M      sync.RWMutex // RWMutex is a reader/writer mutual exclusion lock
+	M      sync.RWMutex 
 }
 
 func NewProxy(origin string, clear bool) *Proxy {
@@ -25,7 +25,7 @@ func NewProxy(origin string, clear bool) *Proxy {
 }
 
 func (p *Proxy) ClearCache() {
-	p.M.Lock() 
+	p.M.Lock()
 	defer p.M.Unlock()
 	p.Cache = make(map[string]*cache.Cache)
 	fmt.Println("Cache cleared successfully")
@@ -43,7 +43,7 @@ func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	CACHE_KEY := r.Method + ":" + urlPath
 
-	p.M.RLock() 
+	p.M.RLock()
 	c, ok := p.Cache[CACHE_KEY]
 	p.M.RUnlock()
 
