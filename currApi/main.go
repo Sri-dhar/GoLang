@@ -10,14 +10,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/joho/godotenv"
 	"github.com/charmbracelet/bubbles/spinner"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/joho/godotenv"
 )
 
-var API_KEY string;
+var API_KEY string
 
 func init() {
 	godotenv.Load()
@@ -274,7 +274,7 @@ func (m *model) convert() {
 	}
 
 	var result float64
-	
+
 	if fromCurrency == "USD" {
 		result = amount * m.rates.Rates[toCurrency]
 	} else if toCurrency == "USD" {
@@ -284,7 +284,7 @@ func (m *model) convert() {
 		result = usdAmount * m.rates.Rates[toCurrency]
 	}
 
-	m.conversionInfo = fmt.Sprintf("%.2f %s = %.2f %s", 
+	m.conversionInfo = fmt.Sprintf("%.2f %s = %.2f %s",
 		amount, fromCurrency, result, toCurrency)
 }
 
@@ -294,25 +294,27 @@ func (m model) View() string {
 	switch m.page {
 	case MenuPage:
 		s = titleStyle.Render("CURRENCY EXCHANGE") + "\n\n"
-		
-		if !m.rates.LastTime.IsZero() {
-			s += infoStyle.Render(fmt.Sprintf("Last updated: %s\n\n", 
-				m.rates.LastTime.Format("Jan 02, 2006 15:04:05")))
-		}
 
-		s += "Choose an option:\n\n"
+		if !m.rates.LastTime.IsZero() {
+			s += infoStyle.Render(fmt.Sprintf("Last updated: %s\n\n",
+				m.rates.LastTime.Format("Jan 02, 2006 15:04:05")))
+			s += infoStyle.Render(fmt.Sprintf("\n"))
+		}
+		menuStyle := lipgloss.NewStyle().Align(lipgloss.Left)
+		s += menuStyle.Render("Choose an option:") + "\n\n"
 		s += highlightStyle.Render("1.") + " Refresh Exchange Rates\n"
 		s += highlightStyle.Render("2.") + " Convert Currency\n\n"
 		s += "Press " + highlightStyle.Render("q") + " to quit\n\n"
 
 		if len(m.rates.Rates) > 0 {
 			s += highlightStyle.Render("Available rates (vs USD):\n")
-			
+			s += highlightStyle.Render("\n")
+
 			currencies := []string{"EUR", "GBP", "JPY", "CAD", "AUD", "CNY", "INR"}
 			for _, curr := range currencies {
 				if rate, ok := m.rates.Rates[curr]; ok {
-					s += fmt.Sprintf("%s: %s\n", 
-						curr, 
+					s += fmt.Sprintf("%s: %s\n",
+						curr,
 						rateStyle.Render(fmt.Sprintf("%.4f", rate)))
 				}
 			}
@@ -320,7 +322,7 @@ func (m model) View() string {
 
 	case RefreshPage:
 		s = titleStyle.Render("REFRESHING DATA") + "\n\n"
-		
+
 		if m.loading {
 			s += m.spinner.View() + " Fetching latest exchange rates...\n"
 		} else {
@@ -329,13 +331,13 @@ func (m model) View() string {
 			} else {
 				s += "✓ Successfully updated exchange rates!\n\n"
 				s += fmt.Sprintf("Base Currency: %s\n\n", m.rates.Base)
-				
+
 				s += "Sample Exchange Rates:\n"
 				currencies := []string{"EUR", "GBP", "JPY", "CAD", "AUD", "CNY", "INR"}
 				for _, curr := range currencies {
 					if rate, ok := m.rates.Rates[curr]; ok {
-						s += fmt.Sprintf("%s: %s\n", 
-							curr, 
+						s += fmt.Sprintf("%s: %s\n",
+							curr,
 							rateStyle.Render(fmt.Sprintf("%.4f", rate)))
 					}
 				}
@@ -345,23 +347,23 @@ func (m model) View() string {
 
 	case ConvertPage:
 		s = titleStyle.Render("CURRENCY CONVERTER") + "\n\n"
-		
+
 		s += fmt.Sprintf("From: %s\n", m.fromInput.View())
 		s += fmt.Sprintf("To: %s\n", m.toInput.View())
 		s += fmt.Sprintf("Amount: %s\n\n", m.amountInput.View())
-		
+
 		if m.conversionInfo != "" {
-			if strings.HasPrefix(m.conversionInfo, "Error") || 
-				strings.HasPrefix(m.conversionInfo, "Currency") || 
-				strings.HasPrefix(m.conversionInfo, "Invalid") || 
-				strings.HasPrefix(m.conversionInfo, "Please") || 
+			if strings.HasPrefix(m.conversionInfo, "Error") ||
+				strings.HasPrefix(m.conversionInfo, "Currency") ||
+				strings.HasPrefix(m.conversionInfo, "Invalid") ||
+				strings.HasPrefix(m.conversionInfo, "Please") ||
 				strings.HasPrefix(m.conversionInfo, "No exchange") {
 				s += errorStyle.Render(m.conversionInfo)
 			} else {
 				s += highlightStyle.Render(m.conversionInfo)
 			}
 		}
-		
+
 		s += "\n\nPress TAB to switch fields, ENTER to convert, ESC to return to menu"
 	}
 
